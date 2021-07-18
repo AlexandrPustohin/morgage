@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails>   resourceNotFoundException(ResourceNotFoundException ex) {
-        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), ex.getMessage()+" детальная информация");
+        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), "ResourceNotFoundException");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissmachCheckExeption.class)
     public ResponseEntity<ErrorDetails>   missmachCheckExeption(MissmachCheckExeption ex) {
-        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), ex.getMessage()+" детальная информация");
+        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), "MissmachCheckExeption");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
