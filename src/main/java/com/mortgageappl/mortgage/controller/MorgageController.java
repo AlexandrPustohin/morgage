@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @RestController
@@ -42,6 +43,25 @@ public class MorgageController {
         checkAll.checkInn(morgage.getInn());
         morgageRepository.save(morgage);
         return ResponseEntity.ok(morgage);
+    }
+
+    @PutMapping(value = "/morgage/{id}")
+    public ResponseEntity<Morgage> updateMorgage(@RequestBody Morgage morgage,
+                                               @PathVariable("id") Long id) throws ResourceNotFoundException {
+        Optional<Morgage> p = morgageRepository.findById(id);
+        if (!p.isPresent())
+            throw new ResourceNotFoundException("Запись не найдена в базе данных!");
+        morgage.setId(id);
+        return ResponseEntity.ok().body(morgageRepository.save(morgage));
+    }
+
+    @DeleteMapping(value = "/morgage/{id}")
+    public ResponseEntity<Morgage> deleteMorgage(@PathVariable("id") Long id)  throws ResourceNotFoundException {
+        Optional<Morgage> p = morgageRepository.findById(id);
+        if (!p.isPresent())
+            throw new ResourceNotFoundException("Запись не найдена в базе данных!");
+        morgageRepository.deleteById(id);
+        return ResponseEntity.ok().body(p.get());
     }
 
 }

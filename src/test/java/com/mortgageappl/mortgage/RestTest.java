@@ -104,6 +104,22 @@ public class RestTest {
     }
 
     @Test
+    public void testMorgageList() {
+        Morgage morgage1 = creatMorgage();
+        Morgage morgage2 = creatMorgage();
+        morgage2.setCastomer("AnotherCastomer");
+
+        morgageRepository.save(morgage1);
+        morgageRepository.save(morgage2);
+        when().get("/morgage")
+
+                .then().log().body()
+                .statusCode(HttpStatus.OK.value())
+                .and().body("get(0).castomer", equalTo(morgage1.getCastomer()))
+                .and().body("get(1).castomer", equalTo(morgage2.getCastomer()));
+    }
+
+    @Test
     public void givenNoMorgage_whenGetMorgage() {
         given().pathParam("id", 1)
                 .when().get("/morgage/{id}")
