@@ -3,11 +3,12 @@ package com.mortgageappl.mortgage.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "morgage")
+@Table(name = "mortgage")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Morgage {
+public class Mortgage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -42,12 +43,12 @@ public class Morgage {
     @Column(name = "inn")
     private String inn;// ИНН
 
-    public Morgage() {
+    public Mortgage() {
     }
 
     @Override
     public String toString() {
-        return "Morgage{" +
+        return "Mortgage{" +
                 "id=" + id +
                 ", castomer='" + castomer + '\'' +
                 ", passport='" + passport + '\'' +
@@ -62,9 +63,9 @@ public class Morgage {
                 '}';
     }
 
-    public Morgage(long id, String castomer, String passport, String address,
-                   String phon, int summa, int duration, String subject,
-                   String supplier, String supAddress, String inn) {
+    public Mortgage(long id, String castomer, String passport, String address,
+                    String phon, int summa, int duration, String subject,
+                    String supplier, String supAddress, String inn) {
         this.id = id;
         this.castomer = castomer;
         this.passport = passport;
@@ -164,5 +165,18 @@ public class Morgage {
 
     public void setInn(String inn) {
         this.inn = inn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mortgage mortgage = (Mortgage) o;
+        return id == mortgage.id && summa == mortgage.summa && duration == mortgage.duration && Objects.equals(castomer, mortgage.castomer) && Objects.equals(passport, mortgage.passport) && Objects.equals(address, mortgage.address) && Objects.equals(phon, mortgage.phon) && Objects.equals(subject, mortgage.subject) && Objects.equals(supplier, mortgage.supplier) && Objects.equals(supAddress, mortgage.supAddress) && Objects.equals(inn, mortgage.inn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, castomer, passport, address, phon, summa, duration, subject, supplier, supAddress, inn);
     }
 }

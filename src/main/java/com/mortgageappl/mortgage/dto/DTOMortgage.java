@@ -1,9 +1,9 @@
 package com.mortgageappl.mortgage.dto;
 
-import com.mortgageappl.mortgage.model.Morgage;
+import com.mortgageappl.mortgage.model.Mortgage;
 
 
-public class DTOMorgage {
+public class DTOMortgage {
     private long id;
     private String castomer;// ФИО продавца
     private String passport;//данные паспорта
@@ -16,7 +16,7 @@ public class DTOMorgage {
     private String supAddress;//адрес продавца
     private String inn;// ИНН
 
-    public DTOMorgage(Morgage morgage) {
+    public DTOMortgage(Mortgage morgage) {
         this.id = morgage.getId();
         this.castomer = morgage.getCastomer();
         this.passport = morgage.getPassport();
@@ -30,7 +30,7 @@ public class DTOMorgage {
         this.inn = morgage.getInn();
     }
 
-    public DTOMorgage(long id) {
+    public DTOMortgage(long id) {
         this.id = id;
     }
 

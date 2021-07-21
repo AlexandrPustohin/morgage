@@ -3,15 +3,14 @@ package com.mortgageappl.mortgage;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
-import com.mortgageappl.mortgage.model.Morgage;
-import com.mortgageappl.mortgage.repository.MorgageRepository;
+import com.mortgageappl.mortgage.model.Mortgage;
+import com.mortgageappl.mortgage.repository.MortgageRepository;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
-import org.springframework.test.web.servlet.MockMvc;
 
 
 @RunWith(SpringRunner.class)
@@ -31,7 +29,7 @@ public class RestTest {
     private int port;
 
     @Autowired
-    private MorgageRepository morgageRepository;
+    private MortgageRepository mortgageRepository;
 
     @Before
     public void setup() {
@@ -39,40 +37,40 @@ public class RestTest {
     }
     @After
     public void resetDb() {
-        morgageRepository.deleteAll();
-        morgageRepository.flush();
+        mortgageRepository.deleteAll();
+        mortgageRepository.flush();
     }
 
     @Test
-    public void whenCreateMorgage() throws Exception {
+    public void whenCreateMortgage() throws Exception {
 
-        Morgage morgage = creatMorgage();
+        Mortgage mortgage = creatMortgage();
         given().log().body()
-                .contentType("application/json").body(morgage)
-                .when().post("/morgage")
+                .contentType("application/json").body(mortgage)
+                .when().post("/mortgage")
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
-                .and().body("castomer",  equalTo(morgage.getCastomer()))
-                .and().body("passport", equalTo(morgage.getPassport()))
-                .and().body("address", equalTo(morgage.getAddress()))
-                .and().body("phon", equalTo(morgage.getPhon()))
-                .and().body("summa", equalTo(morgage.getSumma()))
-                .and().body("duration", equalTo(morgage.getDuration()))
-                .and().body("subject", equalTo(morgage.getSubject()))
-                .and().body("supplier", equalTo(morgage.getSupplier()))
-                .and().body("supAddress", equalTo(morgage.getSupAddress()))
-                .and().body("inn", equalTo(morgage.getInn()));
+                .and().body("castomer",  equalTo(mortgage.getCastomer()))
+                .and().body("passport", equalTo(mortgage.getPassport()))
+                .and().body("address", equalTo(mortgage.getAddress()))
+                .and().body("phon", equalTo(mortgage.getPhon()))
+                .and().body("summa", equalTo(mortgage.getSumma()))
+                .and().body("duration", equalTo(mortgage.getDuration()))
+                .and().body("subject", equalTo(mortgage.getSubject()))
+                .and().body("supplier", equalTo(mortgage.getSupplier()))
+                .and().body("supAddress", equalTo(mortgage.getSupAddress()))
+                .and().body("inn", equalTo(mortgage.getInn()));
 
     }
 
     @Test
-    public void givenWrongINN_whenCreateMorgage() throws Exception {
+    public void givenWrongINN_whenCreateMortgage() throws Exception {
 
-        Morgage morgage = creatMorgage();
-        morgage.setInn("124578545221");
+        Mortgage mortgage = creatMortgage();
+        mortgage.setInn("124578545221");
         given().log().body()
-                .contentType("application/json").body(morgage)
-                .when().post("/morgage")
+                .contentType("application/json").body(mortgage)
+                .when().post("/mortgage")
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
                 .and().body("details",  equalTo("MissmachCheckExeption"))
@@ -83,65 +81,65 @@ public class RestTest {
     @Test
     public void whenGetMorgage() throws Exception {
 
-        Morgage morgage = creatMorgage();
-        Morgage saveedMorgage = morgageRepository.save(morgage);
-        long id = saveedMorgage.getId();
+        Mortgage mortgage = creatMortgage();
+        Mortgage saveedMortgage = mortgageRepository.save(mortgage);
+        long id = saveedMortgage.getId();
 
         given().pathParam("id", id)
-                .when().get("/morgage/{id}")
+                .when().get("/mortgage/{id}")
                 .then().log().body().statusCode(HttpStatus.OK.value())
                 .and().body("id", equalTo((int)id))
-                .and().body("castomer",  equalTo(morgage.getCastomer()))
-                .and().body("passport", equalTo(morgage.getPassport()))
-                .and().body("address", equalTo(morgage.getAddress()))
-                .and().body("phon", equalTo(morgage.getPhon()))
-                .and().body("summa", equalTo(morgage.getSumma()))
-                .and().body("duration", equalTo(morgage.getDuration()))
-                .and().body("subject", equalTo(morgage.getSubject()))
-                .and().body("supplier", equalTo(morgage.getSupplier()))
-                .and().body("supAddress", equalTo(morgage.getSupAddress()))
-                .and().body("inn", equalTo(morgage.getInn()));
+                .and().body("castomer",  equalTo(mortgage.getCastomer()))
+                .and().body("passport", equalTo(mortgage.getPassport()))
+                .and().body("address", equalTo(mortgage.getAddress()))
+                .and().body("phon", equalTo(mortgage.getPhon()))
+                .and().body("summa", equalTo(mortgage.getSumma()))
+                .and().body("duration", equalTo(mortgage.getDuration()))
+                .and().body("subject", equalTo(mortgage.getSubject()))
+                .and().body("supplier", equalTo(mortgage.getSupplier()))
+                .and().body("supAddress", equalTo(mortgage.getSupAddress()))
+                .and().body("inn", equalTo(mortgage.getInn()));
     }
 
     @Test
-    public void testMorgageList() {
-        Morgage morgage1 = creatMorgage();
-        Morgage morgage2 = creatMorgage();
-        morgage2.setCastomer("AnotherCastomer");
+    public void testMortgageList() {
+        Mortgage mortgage1 = creatMortgage();
+        Mortgage mortgage2 = creatMortgage();
+        mortgage2.setCastomer("AnotherCastomer");
 
-        morgageRepository.save(morgage1);
-        morgageRepository.save(morgage2);
-        when().get("/morgage")
+        mortgageRepository.save(mortgage1);
+        mortgageRepository.save(mortgage2);
+        when().get("/mortgage")
 
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
-                .and().body("get(0).castomer", equalTo(morgage1.getCastomer()))
-                .and().body("get(1).castomer", equalTo(morgage2.getCastomer()));
+                .and().body("get(0).castomer", equalTo(mortgage1.getCastomer()))
+                .and().body("get(1).castomer", equalTo(mortgage2.getCastomer()));
     }
 
     @Test
-    public void givenNoMorgage_whenGetMorgage() {
+    public void givenNoMortgage_whenGetMorgage() {
         given().pathParam("id", 1)
-                .when().get("/morgage/{id}")
+                .when().get("/mortgage/{id}")
 
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
                 .and().body("details", equalTo("ResourceNotFoundException"));
     }
 
-    public Morgage creatMorgage(){
-        Morgage morgage = new Morgage();
+    public Mortgage creatMortgage(){
+        Mortgage mortgage = new Mortgage();
 
-        morgage.setCastomer("Иванов Иван Иванович");
-        morgage.setPassport("11 22 456789");
-        morgage.setAddress("г. Вологда ул. Ленина 1 кв. 5");
-        morgage.setPhon("8921654987");
-        morgage.setSumma(5000000);
-        morgage.setDuration(10);
-        morgage.setSubject("Деревенский дом с. Покровское ул. Луговая 5");
-        morgage.setSupplier("Агенстов недвижимости Этажи");
-        morgage.setSupAddress("г. Вологда просп. Победы, 28, Вологда");
-        morgage.setInn("353003514634");
-        return morgage;
+        mortgage.setCastomer("Иванов Иван Иванович");
+        mortgage.setPassport("11 22 456789");
+        mortgage.setAddress("г. Вологда ул. Ленина 1 кв. 5");
+        mortgage.setPhon("8921654987");
+        mortgage.setSumma(5000000);
+        mortgage.setDuration(10);
+        mortgage.setSubject("Деревенский дом с. Покровское ул. Луговая 5");
+        mortgage.setSupplier("Агенстов недвижимости Этажи");
+        mortgage.setSupAddress("г. Вологда просп. Победы, 28, Вологда");
+        mortgage.setInn("353003514634");
+        return mortgage;
     }
 }
