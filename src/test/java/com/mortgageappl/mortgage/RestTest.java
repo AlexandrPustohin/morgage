@@ -50,7 +50,7 @@ public class RestTest {
                 .when().post("/mortgage")
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
-                .and().body("castomer",  equalTo(mortgage.getCastomer()))
+                .and().body("customer",  equalTo(mortgage.getCustomer()))
                 .and().body("passport", equalTo(mortgage.getPassport()))
                 .and().body("address", equalTo(mortgage.getAddress()))
                 .and().body("phon", equalTo(mortgage.getPhon()))
@@ -89,7 +89,7 @@ public class RestTest {
                 .when().get("/mortgage/{id}")
                 .then().log().body().statusCode(HttpStatus.OK.value())
                 .and().body("id", equalTo((int)id))
-                .and().body("castomer",  equalTo(mortgage.getCastomer()))
+                .and().body("customer",  equalTo(mortgage.getCustomer()))
                 .and().body("passport", equalTo(mortgage.getPassport()))
                 .and().body("address", equalTo(mortgage.getAddress()))
                 .and().body("phon", equalTo(mortgage.getPhon()))
@@ -105,7 +105,7 @@ public class RestTest {
     public void testMortgageList() {
         Mortgage mortgage1 = creatMortgage();
         Mortgage mortgage2 = creatMortgage();
-        mortgage2.setCastomer("AnotherCastomer");
+        mortgage2.setCustomer("AnotherCustomer");
 
         mortgageRepository.save(mortgage1);
         mortgageRepository.save(mortgage2);
@@ -113,8 +113,8 @@ public class RestTest {
 
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
-                .and().body("get(0).castomer", equalTo(mortgage1.getCastomer()))
-                .and().body("get(1).castomer", equalTo(mortgage2.getCastomer()));
+                .and().body("get(0).customer", equalTo(mortgage1.getCustomer()))
+                .and().body("get(1).customer", equalTo(mortgage2.getCustomer()));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class RestTest {
     public Mortgage creatMortgage(){
         Mortgage mortgage = new Mortgage();
 
-        mortgage.setCastomer("Иванов Иван Иванович");
+        mortgage.setCustomer("Иванов Иван Иванович");
         mortgage.setPassport("11 22 456789");
         mortgage.setAddress("г. Вологда ул. Ленина 1 кв. 5");
         mortgage.setPhon("8921654987");
