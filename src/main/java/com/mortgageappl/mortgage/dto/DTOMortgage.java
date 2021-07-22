@@ -5,7 +5,7 @@ import com.mortgageappl.mortgage.model.Mortgage;
 
 public class DTOMortgage {
     private long id;
-    private String castomer;// ФИО продавца
+    private String customer;// ФИО продавца
     private String passport;//данные паспорта
     private String address;//адрес
     private String phon;//номер телефона
@@ -18,7 +18,7 @@ public class DTOMortgage {
 
     public DTOMortgage(Mortgage morgage) {
         this.id = morgage.getId();
-        this.castomer = morgage.getCastomer();
+        this.customer = morgage.getCustomer();
         this.passport = morgage.getPassport();
         this.address = morgage.getAddress();
         this.phon = morgage.getPhon();
@@ -38,7 +38,7 @@ public class DTOMortgage {
     public String toString() {
         return "DTOMorgage{" +
                 "id=" + id +
-                ", castomer='" + castomer + '\'' +
+                ", castomer='" + customer + '\'' +
                 ", passport='" + passport + '\'' +
                 ", address='" + address + '\'' +
                 ", phon='" + phon + '\'' +

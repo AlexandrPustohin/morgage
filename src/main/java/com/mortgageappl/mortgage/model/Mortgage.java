@@ -13,8 +13,8 @@ public class Mortgage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "castomer")
-    private String castomer;// ФИО продавца
+    @Column(name = "customer")
+    private String customer;// ФИО продавца
 
     @Column(name = "passport")
     private String passport;//данные паспорта
@@ -50,7 +50,7 @@ public class Mortgage {
     public String toString() {
         return "Mortgage{" +
                 "id=" + id +
-                ", castomer='" + castomer + '\'' +
+                ", castomer='" + customer + '\'' +
                 ", passport='" + passport + '\'' +
                 ", address='" + address + '\'' +
                 ", phon='" + phon + '\'' +
@@ -63,11 +63,11 @@ public class Mortgage {
                 '}';
     }
 
-    public Mortgage(long id, String castomer, String passport, String address,
+    public Mortgage(long id, String customer, String passport, String address,
                     String phon, int summa, int duration, String subject,
                     String supplier, String supAddress, String inn) {
         this.id = id;
-        this.castomer = castomer;
+        this.customer = customer;
         this.passport = passport;
         this.address = address;
         this.phon = phon;
@@ -87,12 +87,12 @@ public class Mortgage {
         this.id = id;
     }
 
-    public String getCastomer() {
-        return castomer;
+    public String getCustomer() {
+        return customer;
     }
 
-    public void setCastomer(String castomer) {
-        this.castomer = castomer;
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     public String getPassport() {
@@ -172,11 +172,11 @@ public class Mortgage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mortgage mortgage = (Mortgage) o;
-        return id == mortgage.id && summa == mortgage.summa && duration == mortgage.duration && Objects.equals(castomer, mortgage.castomer) && Objects.equals(passport, mortgage.passport) && Objects.equals(address, mortgage.address) && Objects.equals(phon, mortgage.phon) && Objects.equals(subject, mortgage.subject) && Objects.equals(supplier, mortgage.supplier) && Objects.equals(supAddress, mortgage.supAddress) && Objects.equals(inn, mortgage.inn);
+        return id == mortgage.id && summa == mortgage.summa && duration == mortgage.duration && Objects.equals(customer, mortgage.customer) && Objects.equals(passport, mortgage.passport) && Objects.equals(address, mortgage.address) && Objects.equals(phon, mortgage.phon) && Objects.equals(subject, mortgage.subject) && Objects.equals(supplier, mortgage.supplier) && Objects.equals(supAddress, mortgage.supAddress) && Objects.equals(inn, mortgage.inn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, castomer, passport, address, phon, summa, duration, subject, supplier, supAddress, inn);
+        return Objects.hash(id, customer, passport, address, phon, summa, duration, subject, supplier, supAddress, inn);
     }
 }
