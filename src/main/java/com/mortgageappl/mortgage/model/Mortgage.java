@@ -1,19 +1,24 @@
 package com.mortgageappl.mortgage.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 @Table(name = "mortgage")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Validated
 public class Mortgage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+
+    private Long id;
 
     @Column(name = "customer")
+    @NotNull//валидация не Hibernate!
     private String customer;// ФИО продавца
 
     @Column(name = "passport")
@@ -63,7 +68,7 @@ public class Mortgage {
                 '}';
     }
 
-    public Mortgage(long id, String customer, String passport, String address,
+    public Mortgage(Long id, String customer, String passport, String address,
                     String phon, int summa, int duration, String subject,
                     String supplier, String supAddress, String inn) {
         this.id = id;
@@ -79,11 +84,11 @@ public class Mortgage {
         this.inn = inn;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

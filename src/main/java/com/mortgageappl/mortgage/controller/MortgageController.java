@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+//origins = "http://192.168.1.167"
+@CrossOrigin()
 @RestController
-@CrossOrigin(origins = "http://localhost")
+
 public class MortgageController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class MortgageController {
         List<Mortgage> mortgageList = mortgageRepository.findAll();;
         if (mortgageList.isEmpty())
             throw new ResourceNotFoundException("Записи не найдены в базе данных!");
-        return ResponseEntity.ok(mortgageRepository.findAll());
+        return ResponseEntity.ok(mortgageList);
     }
     @GetMapping("/mortgage/{id}")
     public ResponseEntity<?> getMortgage(@PathVariable (value = "id") Long id) throws ResourceNotFoundException {
@@ -44,13 +46,13 @@ public class MortgageController {
         return ResponseEntity.ok(mortgage);
     }
 
-    @PutMapping(value = "/mortgage/{id}")
-    public ResponseEntity<Mortgage> updateMortgage(@RequestBody Mortgage mortgage,
-                                                  @PathVariable("id") Long id) throws ResourceNotFoundException {
-        Optional<Mortgage> p = mortgageRepository.findById(id);
+    @PutMapping(value = "/mortgage")
+    public ResponseEntity<Mortgage> updateMortgage(@RequestBody Mortgage mortgage) throws ResourceNotFoundException, MissmachCheckExeption {
+        checkAll.checkInn(mortgage.getInn());
+        Optional<Mortgage> p = mortgageRepository.findById(mortgage.getId());
         if (!p.isPresent())
             throw new ResourceNotFoundException("Запись не найдена в базе данных!");
-        mortgage.setId(id);
+        //mortgageRepository.save(mortgage);
         return ResponseEntity.ok().body(mortgageRepository.save(mortgage));
     }
 
