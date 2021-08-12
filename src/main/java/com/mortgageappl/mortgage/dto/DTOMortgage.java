@@ -1,19 +1,34 @@
 package com.mortgageappl.mortgage.dto;
 
 import com.mortgageappl.mortgage.model.Mortgage;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 
+@Validated
 public class DTOMortgage {
+    @NotEmpty
     private long id;
+    @NotEmpty
     private String customer;// ФИО продавца
+    @NotEmpty
     private String passport;//данные паспорта
+    @NotEmpty
     private String address;//адрес
+
+    @NotEmpty
     private String phon;//номер телефона
+    @NotEmpty
     private int    summa;//соответственно сумма ипотеки
+    @NotEmpty
     private int    duration;//длительность - обычно в месяцах или годах
+    @NotEmpty
     private String subject;//информацио недвижимости
+    @NotEmpty
     private String supplier;//наименование или ФИО продавца
+    @NotEmpty
     private String supAddress;//адрес продавца
+    @NotEmpty
     private String inn;// ИНН
 
     public DTOMortgage(Mortgage morgage) {

@@ -1,13 +1,19 @@
 package com.mortgageappl.mortgage.controller;
 
+import com.mortgageappl.mortgage.dto.DTOMortgage;
 import com.mortgageappl.mortgage.exseption.MissmachCheckExeption;
 import com.mortgageappl.mortgage.exseption.ResourceNotFoundException;
 import com.mortgageappl.mortgage.model.Mortgage;
 import com.mortgageappl.mortgage.repository.MortgageRepository;
 import com.mortgageappl.mortgage.services.CheckAll;
+import com.mortgageappl.mortgage.services.MortageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.List;
 import java.util.Optional;
@@ -15,20 +21,18 @@ import java.util.Optional;
 //origins = "http://192.168.1.167"
 @CrossOrigin()
 @RestController
-
 public class MortgageController {
 
     @Autowired
-    MortgageRepository mortgageRepository;
+    MortageServiceImpl mortageService;
     @Autowired
     CheckAll checkAll;
+
     @GetMapping("/mortgage")
     public ResponseEntity<List<Mortgage>> getAllmortgage() throws ResourceNotFoundException {
 
-        List<Mortgage> mortgageList = mortgageRepository.findAll();;
-        if (mortgageList.isEmpty())
-            throw new ResourceNotFoundException("Записи не найдены в базе данных!");
-        return ResponseEntity.ok(mortgageList);
+
+        return ResponseEntity.ok(mortageService.getAllMotrgage());
     }
     @GetMapping("/mortgage/{id}")
     public ResponseEntity<?> getMortgage(@PathVariable (value = "id") Long id) throws ResourceNotFoundException {

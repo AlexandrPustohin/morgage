@@ -1,9 +1,11 @@
 package com.mortgageappl.mortgage.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -14,11 +16,9 @@ import java.util.Objects;
 public class Mortgage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
 
     @Column(name = "customer")
-    @NotNull//валидация не Hibernate!
     private String customer;// ФИО продавца
 
     @Column(name = "passport")
