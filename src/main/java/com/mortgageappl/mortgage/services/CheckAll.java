@@ -1,6 +1,6 @@
 package com.mortgageappl.mortgage.services;
 
-import com.mortgageappl.mortgage.exseption.MissmachCheckExeption;
+import com.mortgageappl.mortgage.exseption.MismatchCheckException;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
@@ -9,10 +9,10 @@ public class CheckAll {
 
     private static final Pattern innPatter = Pattern.compile("\\d{10}|\\d{12}");
     private static final int[] checkArr = new int[] {3,7,2,4,10,3,5,9,4,6,8};
-    public void checkInn(String inn) throws MissmachCheckExeption {
+    public void checkInn(String inn) throws MismatchCheckException {
         inn = inn.trim();
         if (!innPatter.matcher(inn).matches()) {
-            throw new MissmachCheckExeption("Не правильный ИНН. Должен быть 10 или 12 цифр");
+            throw new MismatchCheckException("Не правильный ИНН. Должен быть 10 или 12 цифр");
         }
         boolean isCorrectInn=true;
         int length = inn.length();
@@ -26,7 +26,7 @@ public class CheckAll {
             }
         }
         if (! isCorrectInn)
-            throw new MissmachCheckExeption("Не правильный ИНН. Проверьте!");
+            throw new MismatchCheckException("Не правильный ИНН. Проверьте!");
     }
 
     private static boolean INNStep(String inn, int offset, int arrOffset) {

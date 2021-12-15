@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.mortgageappl.mortgage.model.Mortgage;
 import com.mortgageappl.mortgage.repository.MortgageRepository;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
@@ -44,7 +42,7 @@ public class RestTest {
     @Test
     public void whenCreateMortgage() throws Exception {
 
-        Mortgage mortgage = creatMortgage();
+        Mortgage mortgage = createMortgage();
         given().log().body()
                 .contentType("application/json").body(mortgage)
                 .when().post("/mortgage")
@@ -53,7 +51,7 @@ public class RestTest {
                 .and().body("customer",  equalTo(mortgage.getCustomer()))
                 .and().body("passport", equalTo(mortgage.getPassport()))
                 .and().body("address", equalTo(mortgage.getAddress()))
-                .and().body("phon", equalTo(mortgage.getPhon()))
+                .and().body("phone", equalTo(mortgage.getPhone()))
                 .and().body("summa", equalTo(mortgage.getSumma()))
                 .and().body("duration", equalTo(mortgage.getDuration()))
                 .and().body("subject", equalTo(mortgage.getSubject()))
@@ -66,24 +64,24 @@ public class RestTest {
     @Test
     public void givenWrongINN_whenCreateMortgage() throws Exception {
 
-        Mortgage mortgage = creatMortgage();
+        Mortgage mortgage = createMortgage();
         mortgage.setInn("124578545221");
         given().log().body()
                 .contentType("application/json").body(mortgage)
                 .when().post("/mortgage")
                 .then().log().body()
                 .statusCode(HttpStatus.OK.value())
-                .and().body("details",  equalTo("MissmachCheckExeption"))
+                .and().body("details",  equalTo("MismatchCheckException"))
                 ;
 
     }
 
     @Test
-    public void whenGetMorgage() throws Exception {
+    public void whenGetMortgage() throws Exception {
 
-        Mortgage mortgage = creatMortgage();
-        Mortgage saveedMortgage = mortgageRepository.save(mortgage);
-        long id = saveedMortgage.getId();
+        Mortgage mortgage = createMortgage();
+        Mortgage savedMortgage = mortgageRepository.save(mortgage);
+        long id = savedMortgage.getId();
 
         given().pathParam("id", id)
                 .when().get("/mortgage/{id}")
@@ -92,7 +90,7 @@ public class RestTest {
                 .and().body("customer",  equalTo(mortgage.getCustomer()))
                 .and().body("passport", equalTo(mortgage.getPassport()))
                 .and().body("address", equalTo(mortgage.getAddress()))
-                .and().body("phon", equalTo(mortgage.getPhon()))
+                .and().body("phone", equalTo(mortgage.getPhone()))
                 .and().body("summa", equalTo(mortgage.getSumma()))
                 .and().body("duration", equalTo(mortgage.getDuration()))
                 .and().body("subject", equalTo(mortgage.getSubject()))
@@ -103,8 +101,8 @@ public class RestTest {
 
     @Test
     public void testMortgageList() {
-        Mortgage mortgage1 = creatMortgage();
-        Mortgage mortgage2 = creatMortgage();
+        Mortgage mortgage1 = createMortgage();
+        Mortgage mortgage2 = createMortgage();
         mortgage2.setCustomer("AnotherCustomer");
 
         mortgageRepository.save(mortgage1);
@@ -118,7 +116,7 @@ public class RestTest {
     }
 
     @Test
-    public void givenNoMortgage_whenGetMorgage() {
+    public void givenNoMortgage_whenGetMortgage() {
         given().pathParam("id", 1)
                 .when().get("/mortgage/{id}")
 
@@ -127,17 +125,17 @@ public class RestTest {
                 .and().body("details", equalTo("ResourceNotFoundException"));
     }
 
-    public Mortgage creatMortgage(){
+    public Mortgage createMortgage(){
         Mortgage mortgage = new Mortgage();
 
         mortgage.setCustomer("Иванов Иван Иванович");
         mortgage.setPassport("11 22 456789");
         mortgage.setAddress("г. Вологда ул. Ленина 1 кв. 5");
-        mortgage.setPhon("8921654987");
+        mortgage.setPhone("8921654987");
         mortgage.setSumma(5000000);
         mortgage.setDuration(10);
         mortgage.setSubject("Деревенский дом с. Покровское ул. Луговая 5");
-        mortgage.setSupplier("Агенстов недвижимости Этажи");
+        mortgage.setSupplier("Агенство недвижимости Этажи");
         mortgage.setSupAddress("г. Вологда просп. Победы, 28, Вологда");
         mortgage.setInn("353003514634");
         return mortgage;

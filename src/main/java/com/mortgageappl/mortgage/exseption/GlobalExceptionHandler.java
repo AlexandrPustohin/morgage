@@ -20,19 +20,19 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<?> globleHttpMessageNotReadableException(Exception ex, WebRequest request) {
+    public ResponseEntity<?> globalHttpMessageNotReadableException(Exception ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), "Проверьте сумму и срок в заявке", "HttpMessageNotReadableException");
         return new ResponseEntity<>(errorDetails, HttpStatus.OK);
     }
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
+    public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(MissmachCheckExeption.class)
-    public ResponseEntity<ErrorDetails>   missmachCheckExeption(MissmachCheckExeption ex) {
-        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), "MissmachCheckExeption");
+    @ExceptionHandler(MismatchCheckException.class)
+    public ResponseEntity<ErrorDetails>   mismatchCheckException(MismatchCheckException ex) {
+        ErrorDetails response = new ErrorDetails(new Date(), ex.getMessage(), "MismatchCheckException");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

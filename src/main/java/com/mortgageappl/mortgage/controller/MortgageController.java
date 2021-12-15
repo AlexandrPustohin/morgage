@@ -1,16 +1,13 @@
 package com.mortgageappl.mortgage.controller;
 
-import com.mortgageappl.mortgage.dto.DTOMortgage;
-import com.mortgageappl.mortgage.exseption.MissmachCheckExeption;
+import com.mortgageappl.mortgage.exseption.MismatchCheckException;
 import com.mortgageappl.mortgage.exseption.ResourceNotFoundException;
 import com.mortgageappl.mortgage.model.Mortgage;
-import com.mortgageappl.mortgage.repository.MortgageRepository;
 import com.mortgageappl.mortgage.services.CheckAll;
-import com.mortgageappl.mortgage.services.MortageServiceImpl;
+import com.mortgageappl.mortgage.services.MortgageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,48 +21,47 @@ import java.util.Optional;
 public class MortgageController {
 
     @Autowired
-    MortageServiceImpl mortageService;
+    MortgageServiceImpl mortgageService;
     @Autowired
     CheckAll checkAll;
 
     @GetMapping("/mortgage")
-    public ResponseEntity<List<Mortgage>> getAllmortgage() throws ResourceNotFoundException {
+    public ResponseEntity<List<Mortgage>> getAllMortgage() throws ResourceNotFoundException {
 
 
-        return ResponseEntity.ok(mortageService.getAllMotrgage());
+        return ResponseEntity.ok(mortgageService.getAllMortgage());
     }
     @GetMapping("/mortgage/{id}")
     public ResponseEntity<?> getMortgage(@PathVariable (value = "id") Long id) throws ResourceNotFoundException {
-            if (! mortgageRepository.existsById(id)){
+            if (! mortgageService.existsById(id)){
                 throw new ResourceNotFoundException("Запись не найдена!");
             }
-            return ResponseEntity.ok(mortgageRepository.getById(id));
+            return ResponseEntity.ok(mortgageService.getById(id));
 
     }
 
     @PostMapping("/mortgage")
-    public ResponseEntity<Mortgage> saveMortgage (@RequestBody Mortgage mortgage) throws MissmachCheckExeption {
+    public ResponseEntity<Mortgage> saveMortgage (@RequestBody Mortgage mortgage) throws MismatchCheckException {
         checkAll.checkInn(mortgage.getInn());
-        mortgageRepository.save(mortgage);
+        mortgageService.save(mortgage);
         return ResponseEntity.ok(mortgage);
     }
 
     @PutMapping(value = "/mortgage")
-    public ResponseEntity<Mortgage> updateMortgage(@RequestBody Mortgage mortgage) throws ResourceNotFoundException, MissmachCheckExeption {
+    public ResponseEntity<Mortgage> updateMortgage(@RequestBody Mortgage mortgage) throws ResourceNotFoundException, MismatchCheckException {
         checkAll.checkInn(mortgage.getInn());
-        Optional<Mortgage> p = mortgageRepository.findById(mortgage.getId());
+        Optional<Mortgage> p = mortgageService.findById(mortgage.getId());
         if (!p.isPresent())
             throw new ResourceNotFoundException("Запись не найдена в базе данных!");
-        //mortgageRepository.save(mortgage);
-        return ResponseEntity.ok().body(mortgageRepository.save(mortgage));
+        return ResponseEntity.ok(mortgage);
     }
 
     @DeleteMapping(value = "/mortgage/{id}")
     public ResponseEntity<Mortgage> deleteMortgage(@PathVariable("id") Long id)  throws ResourceNotFoundException {
-        Optional<Mortgage> p = mortgageRepository.findById(id);
+        Optional<Mortgage> p = mortgageService.findById(id);
         if (!p.isPresent())
             throw new ResourceNotFoundException("Запись не найдена в базе данных!");
-        mortgageRepository.deleteById(id);
+        mortgageService.deleteById(id);
         return ResponseEntity.ok().body(p.get());
     }
 

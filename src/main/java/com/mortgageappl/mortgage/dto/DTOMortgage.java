@@ -15,15 +15,14 @@ public class DTOMortgage {
     private String passport;//данные паспорта
     @NotEmpty
     private String address;//адрес
-
     @NotEmpty
-    private String phon;//номер телефона
+    private String phone;//номер телефона
     @NotEmpty
     private int    summa;//соответственно сумма ипотеки
     @NotEmpty
     private int    duration;//длительность - обычно в месяцах или годах
     @NotEmpty
-    private String subject;//информацио недвижимости
+    private String subject;//информация о недвижимости
     @NotEmpty
     private String supplier;//наименование или ФИО продавца
     @NotEmpty
@@ -31,18 +30,18 @@ public class DTOMortgage {
     @NotEmpty
     private String inn;// ИНН
 
-    public DTOMortgage(Mortgage morgage) {
-        this.id = morgage.getId();
-        this.customer = morgage.getCustomer();
-        this.passport = morgage.getPassport();
-        this.address = morgage.getAddress();
-        this.phon = morgage.getPhon();
-        this.summa = morgage.getSumma();
-        this.duration = morgage.getDuration();
-        this.subject = morgage.getSubject();
-        this.supplier = morgage.getSupplier();
-        this.supAddress = morgage.getSupAddress();
-        this.inn = morgage.getInn();
+    public DTOMortgage(Mortgage mortgage) {
+        this.id = mortgage.getId();
+        this.customer = mortgage.getCustomer();
+        this.passport = mortgage.getPassport();
+        this.address = mortgage.getAddress();
+        this.phone = mortgage.getPhone();
+        this.summa = mortgage.getSumma();
+        this.duration = mortgage.getDuration();
+        this.subject = mortgage.getSubject();
+        this.supplier = mortgage.getSupplier();
+        this.supAddress = mortgage.getSupAddress();
+        this.inn = mortgage.getInn();
     }
 
     public DTOMortgage(long id) {
@@ -51,12 +50,12 @@ public class DTOMortgage {
 
     @Override
     public String toString() {
-        return "DTOMorgage{" +
+        return "DTOMortgage{" +
                 "id=" + id +
-                ", castomer='" + customer + '\'' +
+                ", customer='" + customer + '\'' +
                 ", passport='" + passport + '\'' +
                 ", address='" + address + '\'' +
-                ", phon='" + phon + '\'' +
+                ", phone='" + phone + '\'' +
                 ", summa=" + summa +
                 ", duration=" + duration +
                 ", subject='" + subject + '\'' +

@@ -1,12 +1,9 @@
 package com.mortgageappl.mortgage.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -27,8 +24,8 @@ public class Mortgage {
     @Column(name = "address")
     private String address;//адрес
 
-    @Column(name = "phon")
-    private String phon;//номер телефона
+    @Column(name = "phone")
+    private String phone;//номер телефона
 
     @Column(name = "summa")
     private int    summa;//соответственно сумма ипотеки
@@ -37,7 +34,7 @@ public class Mortgage {
     private int    duration;//длительность - обычно в месяцах или годах
 
     @Column(name = "subject")
-    private String subject;//информацио недвижимости
+    private String subject;//информация недвижимости
 
     @Column(name = "supplier")
     private String supplier;//наименование или ФИО продавца
@@ -55,10 +52,10 @@ public class Mortgage {
     public String toString() {
         return "Mortgage{" +
                 "id=" + id +
-                ", castomer='" + customer + '\'' +
+                ", customer='" + customer + '\'' +
                 ", passport='" + passport + '\'' +
                 ", address='" + address + '\'' +
-                ", phon='" + phon + '\'' +
+                ", phone='" + phone + '\'' +
                 ", summa=" + summa +
                 ", duration=" + duration +
                 ", subject='" + subject + '\'' +
@@ -69,13 +66,13 @@ public class Mortgage {
     }
 
     public Mortgage(Long id, String customer, String passport, String address,
-                    String phon, int summa, int duration, String subject,
+                    String phone, int summa, int duration, String subject,
                     String supplier, String supAddress, String inn) {
         this.id = id;
         this.customer = customer;
         this.passport = passport;
         this.address = address;
-        this.phon = phon;
+        this.phone = phone;
         this.summa = summa;
         this.duration = duration;
         this.subject = subject;
@@ -116,12 +113,12 @@ public class Mortgage {
         this.address = address;
     }
 
-    public String getPhon() {
-        return phon;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhon(String phon) {
-        this.phon = phon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getSumma() {
@@ -177,11 +174,11 @@ public class Mortgage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mortgage mortgage = (Mortgage) o;
-        return id == mortgage.id && summa == mortgage.summa && duration == mortgage.duration && Objects.equals(customer, mortgage.customer) && Objects.equals(passport, mortgage.passport) && Objects.equals(address, mortgage.address) && Objects.equals(phon, mortgage.phon) && Objects.equals(subject, mortgage.subject) && Objects.equals(supplier, mortgage.supplier) && Objects.equals(supAddress, mortgage.supAddress) && Objects.equals(inn, mortgage.inn);
+        return id == mortgage.id && summa == mortgage.summa && duration == mortgage.duration && Objects.equals(customer, mortgage.customer) && Objects.equals(passport, mortgage.passport) && Objects.equals(address, mortgage.address) && Objects.equals(phone, mortgage.phone) && Objects.equals(subject, mortgage.subject) && Objects.equals(supplier, mortgage.supplier) && Objects.equals(supAddress, mortgage.supAddress) && Objects.equals(inn, mortgage.inn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer, passport, address, phon, summa, duration, subject, supplier, supAddress, inn);
+        return Objects.hash(id, customer, passport, address, phone, summa, duration, subject, supplier, supAddress, inn);
     }
 }
